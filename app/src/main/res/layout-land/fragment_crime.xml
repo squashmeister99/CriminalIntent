@@ -21,30 +21,41 @@
         android:inputType="textPersonName"
         android:ems="10"
         android:id="@+id/crime_title"
+        style="?android:listSeparatorTextViewStyle"
         android:text="@string/crime_title_hint"
-        style="?android:listSeparatorTextViewStyle"/>
+        tools:layout_marginTop="18dp"
+        android:layout_marginBottom="18dp"/>
 
     <TextView
         android:text="@string/crime_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/crime_details"
-        style="?android:listSeparatorTextViewStyle"
-        />
+        style="?android:listSeparatorTextViewStyle"/>
 
-    <Button
-        android:text="Crime Date"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/crime_date"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:elevation="8dp"
-        style="@style/Theme.AppCompat.DayNight"/>
+        android:layout_height="wrap_content">
 
-    <CheckBox
-        android:text="@string/crime_solved"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/crimeSolved"/>
+        <Button
+            android:text="Crime Date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/crime_date"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:elevation="8dp"
+            style="@style/Theme.AppCompat.DayNight"
+            android:layout_weight="1"/>
+
+        <CheckBox
+            android:text="@string/crime_solved"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/crimeSolved"
+            android:layout_weight="2"/>
+
+    </LinearLayout>
+
 </LinearLayout>
