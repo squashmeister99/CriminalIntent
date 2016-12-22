@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/crime_title_label"
-        style="?android:listSeparatorTextViewStyle"
         />
 
     <EditText
@@ -29,7 +28,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/crime_details"
-        style="?android:listSeparatorTextViewStyle"
         />
 
     <Button
