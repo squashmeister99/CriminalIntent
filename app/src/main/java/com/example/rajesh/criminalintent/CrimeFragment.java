@@ -27,6 +27,7 @@ public class CrimeFragment extends Fragment {
     private EditText mTitleField;
     private Button mDateButton;
     private CheckBox mSolvedCheckBox;
+    private int mIndex;
 
     public static CrimeFragment newInstance(UUID crimeID) {
         Bundle args = new Bundle();
@@ -34,7 +35,6 @@ public class CrimeFragment extends Fragment {
         CrimeFragment fragment = new CrimeFragment();
         fragment.setArguments(args);
         return fragment;
-
     }
 
     @Override

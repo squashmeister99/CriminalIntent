@@ -20,8 +20,21 @@ import java.util.List;
 
 public class CrimeListFragment extends Fragment {
 
+    private static final int CRIME_REQUEST_CODE = 22;
     private RecyclerView mCrimeRecyclerView;
     private CrimeAdapter mCrimeAdapter;
+
+    private void updateUI() {
+        CrimeLab crimeLab = CrimeLab.getInstance(getActivity());
+
+        if (mCrimeAdapter == null) {
+            mCrimeAdapter = new CrimeAdapter(crimeLab.getCrimes());
+            mCrimeRecyclerView.setAdapter(mCrimeAdapter);
+        } else {
+            mCrimeAdapter.notifyItemChanged(mCrimeAdapter.getCurrentIndex());
+        }
+
+    }
 
     @Nullable
     @Override
@@ -35,26 +48,51 @@ public class CrimeListFragment extends Fragment {
         return view;
     }
 
-    private void updateUI() {
-        CrimeLab crimeLab = CrimeLab.getInstance(getActivity());
-
-        if(mCrimeAdapter == null) {
-            mCrimeAdapter = new CrimeAdapter(crimeLab.getCrimes());
-            mCrimeRecyclerView.setAdapter(mCrimeAdapter);
-        }
-        else {
-            mCrimeAdapter.notifyDataSetChanged();
-        }
-
-    }
-
     @Override
     public void onResume() {
         super.onResume();
         updateUI();
     }
 
+    private class CrimeAdapter extends RecyclerView.Adapter<CrimeHolder> {
+
+        private List<Crime> mCrimes;
+        private int mCurrentIndex = 0;
+
+        public CrimeAdapter(List<Crime> crimes) {
+            mCrimes = crimes;
+        }
+
+        @Override
+        public CrimeHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            LayoutInflater inflater = LayoutInflater.from(getActivity());
+            View view = inflater.inflate(R.layout.list_item_crime, parent, false);
+            return new CrimeHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(CrimeHolder holder, int position) {
+            Crime crime = mCrimes.get(position);
+            holder.bindCrime(this, crime, position);
+        }
+
+        @Override
+        public int getItemCount() {
+            return mCrimes.size();
+        }
+
+
+        public int getCurrentIndex() {
+            return mCurrentIndex;
+        }
+
+        public void setCurrentIndex(int currentIndex) {
+            mCurrentIndex = currentIndex;
+        }
+    }
+
     private class CrimeHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
 
         private TextView mTitleTextView;
         private TextView mDateTextView;
@@ -69,7 +107,7 @@ public class CrimeListFragment extends Fragment {
             mSolvedCheckbox = (CheckBox) itemView.findViewById(R.id.list_item_crime_solved_checkbox);
         }
 
-        public void bindCrime(Crime crime) {
+        public void bindCrime(CrimeAdapter adapter, Crime crime, int position) {
             mCrime = crime;
             mTitleTextView.setText(mCrime.getTitle());
             mDateTextView.setText(mCrime.getDate().toString());
@@ -78,37 +116,10 @@ public class CrimeListFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
+
             Intent i = CrimeActivity.newIntent(getActivity(), mCrime.getId());
+            mCrimeAdapter.setCurrentIndex(getAdapterPosition());
             startActivity(i);
         }
-    }
-
-    private class CrimeAdapter extends RecyclerView.Adapter<CrimeHolder> {
-
-        private List<Crime> mCrimes;
-
-        public CrimeAdapter(List<Crime> crimes) {
-            mCrimes = crimes;
-        }
-
-
-        @Override
-        public CrimeHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            LayoutInflater inflater = LayoutInflater.from(getActivity());
-            View view = inflater.inflate(R.layout.list_item_crime, parent, false);
-            return new CrimeHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(CrimeHolder holder, int position) {
-            Crime crime = mCrimes.get(position);
-            holder.bindCrime(crime);
-        }
-
-        @Override
-        public int getItemCount() {
-            return mCrimes.size();
-        }
-
     }
 }

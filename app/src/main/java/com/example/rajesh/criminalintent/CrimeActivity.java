@@ -10,6 +10,7 @@ public class CrimeActivity extends SingleFragmentActivity {
 
     private static final String EXTRA_CRIME_ID = "com.vaidya.rajesh.criminal_intent_crimeID";
 
+
     public static Intent newIntent(Context context, UUID crimeID)    {
         Intent intent = new Intent(context, CrimeActivity.class);
         intent.putExtra(EXTRA_CRIME_ID, crimeID);
