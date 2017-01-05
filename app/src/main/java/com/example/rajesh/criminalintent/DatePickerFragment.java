@@ -1,6 +1,9 @@
 package com.example.rajesh.criminalintent;
 
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -11,6 +14,7 @@ import android.widget.DatePicker;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * Created by Rajesh on 12/27/2016.
@@ -19,6 +23,15 @@ import java.util.Date;
 public class DatePickerFragment extends DialogFragment {
 
     private static final String ARG_DATE = "date";
+    public static final String EXTRA_DATE = "com.vaidya.rajesh.criminateintent.date";
+
+    private void sendResult(int resultCode, Date date) {
+        if(getTargetFragment() == null) return;
+
+        Intent intent = new Intent();
+        intent.putExtra(EXTRA_DATE, date);
+        getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, intent);
+    }
 
     private DatePicker mDatePicker;
 
@@ -45,6 +58,16 @@ public class DatePickerFragment extends DialogFragment {
 
         mDatePicker = (DatePicker) v.findViewById(R.id.dialog_date_date_picker);
         mDatePicker.init(year, month, day, null);
-        return new AlertDialog.Builder(getActivity()).setTitle(R.string.date_picker_title).setPositiveButton(android.R.string.ok, null).setView(v).create();
+        return new AlertDialog.Builder(getActivity())
+                .setTitle(R.string.date_picker_title)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Date date = new GregorianCalendar(mDatePicker.getYear(), mDatePicker.getMonth(), mDatePicker.getDayOfMonth()).getTime();
+                        sendResult(Activity.RESULT_OK, date);
+                    }
+                })
+                .setView(v)
+                .create();
     }
 }
