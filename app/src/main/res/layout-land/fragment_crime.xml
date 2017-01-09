@@ -36,7 +36,7 @@
         android:layout_height="wrap_content">
 
         <Button
-            android:text="Crime Date"
+            android:text="@string/crime_date"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/crime_date"
