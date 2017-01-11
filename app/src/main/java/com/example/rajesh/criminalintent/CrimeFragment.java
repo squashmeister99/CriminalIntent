@@ -9,6 +9,9 @@ import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -45,9 +48,36 @@ public class CrimeFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
 
         UUID crimeID = (UUID) getArguments().getSerializable(ARG_CRIME_ID);
         mCrime = CrimeLab.getInstance(getActivity()).getCrime(crimeID);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.fragment_crime, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.menu_item_delete_crime) {
+            CrimeLab.getInstance(getActivity()).deleteCrime(mCrime);
+            // finigh the activity
+            getActivity().finish();
+            return true;
+        }
+
+        // let parent class handle other options
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        CrimeLab.getInstance(getActivity()).updateCrime(mCrime);
     }
 
     @Nullable

@@ -31,12 +31,15 @@ public class CrimeListFragment extends Fragment {
 
     private void updateUI() {
         CrimeLab crimeLab = CrimeLab.getInstance(getActivity());
+        List<Crime> crimes = crimeLab.getCrimes();
 
         if (mCrimeAdapter == null) {
-            mCrimeAdapter = new CrimeAdapter(crimeLab.getCrimes());
+            mCrimeAdapter = new CrimeAdapter(crimes);
             mCrimeRecyclerView.setAdapter(mCrimeAdapter);
         } else {
-            mCrimeAdapter.notifyItemChanged(mCrimeAdapter.getCurrentIndex());
+            mCrimeAdapter.notifyItemRangeRemoved(0, mCrimeAdapter.getItemCount());
+            mCrimeAdapter.setCrimes(crimes);
+            mCrimeAdapter.notifyItemRangeInserted(0, mCrimeAdapter.getItemCount());
         }
 
         updateSubtitle();
@@ -114,6 +117,10 @@ public class CrimeListFragment extends Fragment {
 
     private class CrimeAdapter extends RecyclerView.Adapter<CrimeHolder> {
 
+        public void setCrimes(List<Crime> crimes) {
+            mCrimes = crimes;
+        }
+
         private List<Crime> mCrimes;
         private int mCurrentIndex = 0;
 
@@ -146,6 +153,7 @@ public class CrimeListFragment extends Fragment {
         public void setCurrentIndex(int currentIndex) {
             mCurrentIndex = currentIndex;
         }
+
     }
 
     private class CrimeHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
