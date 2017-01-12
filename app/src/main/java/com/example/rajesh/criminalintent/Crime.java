@@ -33,7 +33,7 @@ public class Crime {
 
     private Date mDate;
     private boolean mSolved;
-
+    private String mSuspect;
 
     public String getTitle() {
         return mTitle;
@@ -44,6 +44,14 @@ public class Crime {
     }
 
     private String mTitle;
+
+    public String getSuspect() {
+        return mSuspect;
+    }
+
+    public void setSuspect(String suspect) {
+        mSuspect = suspect;
+    }
 
     public Crime() {
         this(UUID.randomUUID());

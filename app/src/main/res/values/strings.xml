@@ -10,4 +10,6 @@
     <string name="hide_subtitle">Hide subtitle</string>
     <string name="crime_date">Crime Date</string>
     <string name="delete_crime">Delete</string>
+    <string name="crime_suspect_text">CHOOSE SUSPECT</string>
+    <string name="crime_report_text">SEND CRIME REPORT</string>
 </resources>
