@@ -7,21 +7,7 @@
               android:layout_marginLeft="30dp"
               android:layout_marginRight="30dp">
 
-    <TextView
-        android:text="@string/title_label"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/crime_title_label"
-        />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/crime_title"
-        android:text="@string/crime_title_hint"
-        style="?android:listSeparatorTextViewStyle"/>
+    <include layout="@layout/view_camera_and_title"/>
 
     <TextView
         android:text="@string/crime_details"
