@@ -140,8 +140,8 @@ public class CrimeFragment extends Fragment {
             public void onClick(View v) {
 
                 Intent i = ShareCompat.IntentBuilder.from(getActivity())
-                .setType("text/plain")
-                        .getIntent();
+                            .setType("text/plain")
+                            .getIntent();
 
                 i.putExtra(Intent.EXTRA_TEXT, getCrimeReport());
                 i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.crime_report_subject));
@@ -164,8 +164,8 @@ public class CrimeFragment extends Fragment {
             mSuspectButton.setText((mCrime.getSuspect()));
         }
 
-        PackageManager packageMAnager = getActivity().getPackageManager();
-        if(packageMAnager.resolveActivity(pickContact, PackageManager.MATCH_DEFAULT_ONLY) == null) {
+        PackageManager packageManager = getActivity().getPackageManager();
+        if(packageManager.resolveActivity(pickContact, PackageManager.MATCH_DEFAULT_ONLY) == null) {
             mSuspectButton.setEnabled(false);
         }
 
