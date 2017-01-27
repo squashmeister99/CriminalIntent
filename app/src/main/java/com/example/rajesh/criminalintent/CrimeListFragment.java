@@ -1,6 +1,6 @@
 package com.example.rajesh.criminalintent;
 
-import android.content.Intent;
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -28,8 +28,25 @@ public class CrimeListFragment extends Fragment {
     private RecyclerView mCrimeRecyclerView;
     private CrimeAdapter mCrimeAdapter;
     private boolean mSubtitleVisible = false;
+    private Callbacks mCallbacks;
 
-    private void updateUI() {
+    public interface Callbacks {
+        void onCrimeSelected(Crime crime);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mCallbacks = (Callbacks) activity;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mCallbacks = null;
+    }
+
+    public void updateUI() {
         CrimeLab crimeLab = CrimeLab.getInstance(getActivity());
         List<Crime> crimes = crimeLab.getCrimes();
 
@@ -89,8 +106,8 @@ public class CrimeListFragment extends Fragment {
             case R.id.menu_item_new_crime:
                 Crime crime = new Crime();
                 CrimeLab.getInstance(getActivity()).addCrime(crime);
-                Intent intent = CrimePagerActivity.newIntent(getActivity(), crime.getId());
-                startActivity(intent);
+                updateUI();
+                mCallbacks.onCrimeSelected(crime);
                 return true;
 
             case R.id.menu_item_show_subtitle:
@@ -181,10 +198,7 @@ public class CrimeListFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-
-            Intent i = CrimePagerActivity.newIntent(getActivity(), mCrime.getId());
-            mCrimeAdapter.setCurrentIndex(getAdapterPosition());
-            startActivity(i);
+            mCallbacks.onCrimeSelected(mCrime);
         }
     }
 }
